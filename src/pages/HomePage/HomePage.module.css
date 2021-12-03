@@ -1,0 +1,9 @@
+.container {
+  padding: 40px;
+
+  margin: auto;
+}
+
+.listItem:hover {
+  color: #42929d;
+}
