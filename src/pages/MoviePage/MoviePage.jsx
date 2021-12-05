@@ -36,7 +36,7 @@ const MoviePage = () => {
     <div>
       {movie && (
         <div className={style.container}>
-          <Link to={prevLocation}>Go back</Link>
+          <Link className = {style.goBack} to={prevLocation}>Go back</Link>
           <h1>{movie.title}</h1>
           <img
             src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
@@ -48,6 +48,8 @@ const MoviePage = () => {
           <ul>
             <li>
               <NavLink
+                className={style.link}
+                activeClassName={style.activeLink}
                 to={{
                   pathname: `${url}/cast`,
                   state: { from: location },
@@ -58,6 +60,8 @@ const MoviePage = () => {
             </li>
             <li>
               <NavLink
+                className={style.link}
+                activeClassName={style.activeLink}
                 to={{
                   pathname: `${url}/reviews`,
                   state: { from: location },

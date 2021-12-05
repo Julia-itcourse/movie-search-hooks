@@ -1,7 +1,32 @@
 .container {
   max-width: 600px;
-  min-width: fit-content;
   margin: 60px auto;
   box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
   padding: 20px;
+}
+
+.link {
+  color: #84c3c8;
+  text-decoration: none;
+  padding-bottom: 12px;
+}
+
+.activeLink {
+  composes: link;
+  color: #42929d;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.goBack {
+  padding: 10px;
+  background-color: #84c3c8;
+  border: transparent;
+  border-radius: 5px;
+}
+
+.goBack:hover,
+.goBack:focus {
+  background-color: #42929d;
+  box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
 }
