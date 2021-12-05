@@ -13,14 +13,6 @@ const MoviePage = lazy(() =>
   import("../../pages/MoviePage" /* webpackChunkName: "movie-page" */),
 );
 
-const Cast = lazy(() =>
-  import("../Cast" /* webpackChunkName: "movie-page-cast" */),
-);
-
-const Reviews = lazy(() =>
-  import("../Reviews" /* webpackChunkName: "movie-page-reviews" */),
-);
-
 const App = () => (
   <Layout>
     <Suspense fallback={<h2>Loading...</h2>}>

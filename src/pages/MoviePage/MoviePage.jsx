@@ -1,39 +1,42 @@
 import {
   Route,
+  Link,
   NavLink,
   useParams,
   useLocation,
   useRouteMatch,
-  useHistory,
 } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy } from "react";
 import { fetchMovieById } from "../../services/moviesApi";
-import Cast from "../../components/Cast";
-import Reviews from "../../components/Reviews";
 import style from "./MoviePage.module.css";
+
+const Cast = lazy(() =>
+  import("../../components/Cast" /* webpackChunkName: "movie-page-cast" */),
+);
+
+const Reviews = lazy(() =>
+  import(
+    "../../components/Reviews" /* webpackChunkName: "movie-page-reviews" */
+  ),
+);
 
 const MoviePage = () => {
   const [movie, setMovie] = useState(null);
   const { url, path } = useRouteMatch();
   let { movieId } = useParams();
   const location = useLocation();
-  const history = useHistory();
 
   useEffect(() => {
     fetchMovieById(movieId).then(setMovie);
   }, [movieId]);
 
-  const onGoBack = () => {
-    history.push(location?.state?.from ?? "/");
-  };
+  const [prevLocation] = useState(location?.state?.from ?? "/");
 
   return (
     <div>
       {movie && (
         <div className={style.container}>
-          <button type="button" onClick={onGoBack}>
-            Go back
-          </button>
+          <Link to={prevLocation}>Go back</Link>
           <h1>{movie.title}</h1>
           <img
             src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
@@ -44,12 +47,23 @@ const MoviePage = () => {
           <h3>Additional information</h3>
           <ul>
             <li>
-              <NavLink to={`${url}/cast`} className={style.link}>
+              <NavLink
+                to={{
+                  pathname: `${url}/cast`,
+                  state: { from: location },
+                }}
+              >
                 Cast
               </NavLink>
             </li>
             <li>
-              <NavLink to={`${url}/reviews`} className={style.link}>
+              <NavLink
+                to={{
+                  pathname: `${url}/reviews`,
+                  state: { from: location },
+                }}
+                className={style.link}
+              >
                 Reviews
               </NavLink>
             </li>
