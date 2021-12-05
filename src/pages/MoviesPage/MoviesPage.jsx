@@ -1,5 +1,7 @@
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
+import { useLocation, useHistory } from "react-router-dom";
+
 import SearchMoviesForm from "../../components/SearchMovieForm";
 import { fetchMoviesBySearchQuery } from "../../services/moviesApi";
 import MoviesList from "../../components/MoviesList";
@@ -9,17 +11,34 @@ import styles from "./MoviesPage.module.css";
 
 const MoviesPage = () => {
   const [movies, setMovies] = useState([]);
+  const location = useLocation();
+  const history = useHistory();
+
+  const searchQuery = new URLSearchParams(location.search).get("query");
+
+  console.log("moviesPage", location);
+  console.log("moviesPage", history);
+  console.log("searchQuery", searchQuery);
 
   const handleFormSubmit = (searchQuery) => {
-    fetchMoviesBySearchQuery(searchQuery).then(setMovies);
+    history.push({ ...location, search: `query=${searchQuery}` });
   };
+
+  useEffect(() => {
+    if (!searchQuery) return;
+    fetchMoviesBySearchQuery(searchQuery).then(setMovies);
+  }, [searchQuery]);
 
   return (
     <div className={styles.container}>
       <SearchMoviesForm onSubmitForm={handleFormSubmit} />
       <ToastContainer />
       {movies.length > 0 && (
-        <MoviesList movies={movies} title={"Found movies"} />
+        <MoviesList
+          location={location}
+          movies={movies}
+          title={"Found movies"}
+        />
       )}
     </div>
   );

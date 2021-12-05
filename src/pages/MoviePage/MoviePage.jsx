@@ -4,6 +4,7 @@ import {
   useParams,
   useLocation,
   useRouteMatch,
+  useHistory,
 } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { fetchMovieById } from "../../services/moviesApi";
@@ -15,15 +16,24 @@ const MoviePage = () => {
   const [movie, setMovie] = useState(null);
   const { url, path } = useRouteMatch();
   let { movieId } = useParams();
+  const location = useLocation();
+  const history = useHistory();
 
   useEffect(() => {
     fetchMovieById(movieId).then(setMovie);
   }, [movieId]);
 
+  const onGoBack = () => {
+    history.push(location?.state?.from ?? "/");
+  };
+
   return (
     <div>
       {movie && (
         <div className={style.container}>
+          <button type="button" onClick={onGoBack}>
+            Go back
+          </button>
           <h1>{movie.title}</h1>
           <img
             src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}

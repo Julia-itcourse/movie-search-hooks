@@ -1,5 +1,4 @@
-import PropTypes from "prop-types";
-import { Link, useRouteMatch } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { fetchTrendingMovies } from "../../services/moviesApi";
 import { useState, useEffect } from "react";
 import styles from "./HomePage.module.css";
@@ -9,6 +8,7 @@ const baseUrl = "https://api.themoviedb.org/3/trending/all/day?";
 
 const HomePage = () => {
   const [trendingMovies, setTrendingMovies] = useState([]);
+  const location = useLocation();
 
   useEffect(() => {
     fetchTrendingMovies(baseUrl).then(setTrendingMovies);
@@ -17,7 +17,11 @@ const HomePage = () => {
   return (
     <div className={styles.container}>
       {trendingMovies && (
-        <MoviesList title="Popular Movies" movies={trendingMovies} />
+        <MoviesList
+          location={location}
+          title="Popular Movies"
+          movies={trendingMovies}
+        />
       )}
     </div>
   );
