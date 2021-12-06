@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from "react";
 import routes from "../../routes";
 import { Switch, Route } from "react-router-dom";
 import Layout from "../Layout";
+import LoaderSpinner from "../LoaderSpinner";
 
 const HomePage = lazy(() =>
   import("../../pages/HomePage" /* webpackChunkName: "home-page" */),
@@ -15,7 +16,7 @@ const MoviePage = lazy(() =>
 
 const App = () => (
   <Layout>
-    <Suspense fallback={<h2>Loading...</h2>}>
+    <Suspense fallback={<LoaderSpinner />}>
       <Switch>
         <Route path="/" exact>
           <HomePage />
